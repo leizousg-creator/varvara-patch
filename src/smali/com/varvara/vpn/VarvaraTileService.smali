@@ -15,83 +15,16 @@
 
 # 生成磁贴图标：圆环 + V
 .method private e()Landroid/graphics/drawable/Icon;
-    .locals 11
+    .locals 1
 
-    const/16 v0, 0x60
+    # 用资源型图标：vivo SystemUI 对 BITMAP 型 Icon 调 getResId() 会抛异常
+    const v0, 0x7f060014
 
-    const/16 v2, 0x60
-
-    sget-object v3, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
-
-    invoke-static {v0, v2, v3}, Landroid/graphics/Bitmap;->createBitmap(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;
+    invoke-static {p0, v0}, Landroid/graphics/drawable/Icon;->createWithResource(Landroid/content/Context;I)Landroid/graphics/drawable/Icon;
 
     move-result-object v0
 
-    new-instance v1, Landroid/graphics/Canvas;
-
-    invoke-direct {v1, v0}, Landroid/graphics/Canvas;-><init>(Landroid/graphics/Bitmap;)V
-
-    new-instance v9, Landroid/graphics/Paint;
-
-    const/4 v2, 0x1
-
-    invoke-direct {v9, v2}, Landroid/graphics/Paint;-><init>(I)V
-
-    const/4 v2, -0x1
-
-    invoke-virtual {v9, v2}, Landroid/graphics/Paint;->setColor(I)V
-
-    sget-object v2, Landroid/graphics/Paint$Style;->STROKE:Landroid/graphics/Paint$Style;
-
-    invoke-virtual {v9, v2}, Landroid/graphics/Paint;->setStyle(Landroid/graphics/Paint$Style;)V
-
-    const/high16 v2, 0x41400000
-
-    invoke-virtual {v9, v2}, Landroid/graphics/Paint;->setStrokeWidth(F)V
-
-    sget-object v2, Landroid/graphics/Paint$Cap;->ROUND:Landroid/graphics/Paint$Cap;
-
-    invoke-virtual {v9, v2}, Landroid/graphics/Paint;->setStrokeCap(Landroid/graphics/Paint$Cap;)V
-
-    const/high16 v2, 0x42400000
-
-    const/high16 v3, 0x42400000
-
-    const/high16 v4, 0x42000000
-
-    move-object v5, v9
-
-    invoke-virtual/range {v1 .. v5}, Landroid/graphics/Canvas;->drawCircle(FFFLandroid/graphics/Paint;)V
-
-    const/high16 v2, 0x41c00000
-
-    const/high16 v3, 0x41e00000
-
-    const/high16 v4, 0x42400000
-
-    const/high16 v5, 0x42880000
-
-    move-object v6, v9
-
-    invoke-virtual/range {v1 .. v6}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
-
-    const/high16 v2, 0x42400000
-
-    const/high16 v3, 0x42880000
-
-    const/high16 v4, 0x42900000
-
-    const/high16 v5, 0x41e00000
-
-    move-object v6, v9
-
-    invoke-virtual/range {v1 .. v6}, Landroid/graphics/Canvas;->drawLine(FFFFLandroid/graphics/Paint;)V
-
-    invoke-static {v0}, Landroid/graphics/drawable/Icon;->createWithBitmap(Landroid/graphics/Bitmap;)Landroid/graphics/drawable/Icon;
-
-    move-result-object v10
-
-    return-object v10
+    return-object v0
 .end method
 
 
