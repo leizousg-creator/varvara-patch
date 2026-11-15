@@ -1,0 +1,15 @@
+# 构建产物与密钥（不要提交）
+*.apk
+*.dex
+*.keystore
+*.jks
+*.p12
+
+# 临时目录
+work/
+tmp/
+*.log
+
+# Python 缓存
+__pycache__/
+*.pyc
