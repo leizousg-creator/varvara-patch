@@ -53,6 +53,27 @@ apt install python3 openjdk-17-jre-headless zipalign apksigner
 - 常规做法：`pm uninstall com.varvara.vpn` 后再装（会丢配置）
 - 有核心逆向（CorePatch 类模块）：可直接 `pm install -r` 覆盖，数据保留
 
+#### 安装后必须执行 AOT 编译
+
+替换 `classes.dex` 会让 APK 的 baseline profile 失效，安装时系统只做 `verify`
+（仅校验），**不做 AOT 编译**。后果是冷启动和被冻结后解冻都要解释执行，
+表现为长时间黑屏，容易被误认为闪退。
+
+每次安装后执行：
+
+```sh
+cmd package compile -m speed -f com.varvara.vpn
+```
+
+验证：
+
+```sh
+dumpsys package com.varvara.vpn | grep 'arm64:'
+# 应显示 status=speed（未处理时为 status=verify）
+```
+
+这一步不改任何代码，只是补回原版因 profile 有效而自动获得的编译优化。
+
 安装后控制中心磁贴需要手动添加：**下拉控制中心 → 编辑 → 找到「瓦尔瓦拉」→ 拖到上方**。
 
 ## 目录结构
