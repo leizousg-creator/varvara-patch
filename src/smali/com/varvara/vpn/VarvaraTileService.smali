@@ -17,7 +17,7 @@
 .method private e()Landroid/graphics/drawable/Icon;
     .locals 1
 
-    # 用资源型图标：vivo SystemUI 对 BITMAP 型 Icon 调 getResId() 会抛异常
+    # 使用资源图标：varvara_off 的 alpha 剪影
     const v0, 0x7f060014
 
     invoke-static {p0, v0}, Landroid/graphics/drawable/Icon;->createWithResource(Landroid/content/Context;I)Landroid/graphics/drawable/Icon;
