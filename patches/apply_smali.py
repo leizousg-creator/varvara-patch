@@ -88,14 +88,15 @@ def patch_disable_advice(root):
     for p in hits:
         s = read(p)
         m = re.search(
-            r"\.method public static h\(Landroid/content/Context;(L[a-z0-9]+;)\)V\n.*?\n\.end method\n",
+            r"\.method public ((?:static |final )*)h\(Landroid/content/Context;"
+            r"(L[a-zA-Z0-9_$]+;)\)V\n.*?\n\.end method\n",
             s, re.S)
         if not m:
             continue
-        param = m.group(1)  # 保留真实参数类型，否则调用方找不到该签名
+        mods, param = m.group(1), m.group(2)  # 保留修饰符与真实参数类型
         s = s[:m.start()] + (
-            f".method public static h(Landroid/content/Context;{param})V\n"
-            "    .registers 2\n\n"
+            f".method public {mods}h(Landroid/content/Context;{param})V\n"
+            "    .locals 0\n\n"
             "    # [patch] /v1/advice telemetry disabled\n"
             "    return-void\n"
             ".end method\n") + s[m.end():]
@@ -110,7 +111,7 @@ def patch_disable_advice(root):
 def patch_drop_private_ca(root):
     """移除内嵌私有 CA 的安装调用（原本所有 HTTPS 只信任作者自签 CA）"""
     pat = re.compile(
-        r"[ \t]*invoke-static \{[^}]+\}, L[a-zA-Z0-9_$]+;->q\(Landroid/content/Context;"
+        r"[ \t]*invoke-static \{[^}]+\}, L[a-zA-Z0-9_$]+;->[a-zA-Z0-9_$]+\(Landroid/content/Context;"
         r"Ljavax/net/ssl/HttpsURLConnection;\)V\n")
     total = 0
     for p in all_smali(root):
